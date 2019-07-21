@@ -1,14 +1,14 @@
-var express = require('express');
-var request = require("request");
-var cors = require('cors');
-var fs = require('fs');
-var router = express.Router();
-var xml2js = require('xml2js');
+const express = require('express');
+const request = require("request");
+const cors = require('cors');
+const fs = require('fs');
+const router = express.Router();
+const xml2js = require('xml2js');
 const port = 4000;
-var app = express();
+const app = express();
 
 app.use(cors());
-var parser = xml2js.Parser();
+const parser = xml2js.Parser();
 const _dir = "data"
 // Start server on port
 app.listen(port,() =>{ console.log("Server started on Port " + port);});
