@@ -5,7 +5,7 @@
 4. It will install the missing NPM packages under npm_modules folder
 
 #Start Flicker Node Js Server. Open Terminal and navigate to path below
-1. G:\Projects\flickr\api> node server.js
+1. G:\Projects\flickr-master\flickr-master\api> node server.js
 2. Message should be Server started on Port 4000
 3. Node Js feeds API endpoints location
 http://localhost:4000/
