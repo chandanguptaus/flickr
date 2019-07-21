@@ -1,0 +1,21 @@
+     <div class="form-group">
+        <label for="usr">Search:</label>
+        <input type="text" class="form-control serach-feed" id="usr" [(ngModel)]="searchText" placeholder="Search a Title substring">
+        <br/>
+        <button type="button" (click)="filter()" class="btn btn-success">Submit</button>
+       </div>
+    
+    <div class='list-grid-view container'>
+            <h4>Total entries: {{totalentries}}</h4>
+            <h3>Feed Title:{{feeds.feed.title}}</h3>
+     <ul ng-show="layout ='list-grid-view'" class="list-grid-view">
+        <li *ngFor="let entry of feeds.feed.entry" id = '{{entry.id}}'>
+            <div *ngFor="let img of entry.link">
+                <img *ngIf='img.$.rel=="enclosure"' alt='imaeg' src='{{img.$.href}}' style="width:50%;height:50%;" />
+            </div>
+            <p class='title-feed'>Entry Title :{{entry.title}}</p>
+            <p>Published: {{entry.published}}</p>
+            <p>Updated: {{entry.updated}}</p>
+        </li>
+    </ul>
+</div>
