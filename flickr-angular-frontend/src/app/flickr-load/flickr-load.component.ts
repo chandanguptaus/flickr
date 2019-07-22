@@ -1,75 +1,49 @@
 import { Component, OnInit } from '@angular/core';
 import {FlickrService} from 'services/flickr.service';
 import { Subscription } from 'rxjs/Subscription';
-import { IFeed, EntryEntity, LinkEntity } from 'services/Flicker';
+import { IJSONFeed} from 'services/jsonfeed';
+import { Alert } from 'selenium-webdriver';
 @Component({
   selector: 'app-flickr-load',
   templateUrl: './flickr-load.component.html',
   styleUrls: ['./flickr-load.component.css']
 })
 export class FlickrLoadComponent implements OnInit {
-  public feeds:IFeed;
+  public feeds:IJSONFeed;
   public searchText:string;
   public totalentries:number;
   constructor(private flikrsrvc:FlickrService) { }
+  // filter the feeds based on Tags and Title.
   filter()
   {
-    console.log(this.searchText);
-    console.log(this.feeds.feed.entry[0].title);
     if (this.searchText != "")
     {
-      var filterentries =  this.feeds.feed.entry.filter(t=> 
+      var filterentries =  this.feeds.items.filter(t=> 
       {
-          return t.title[0].indexOf(this.searchText) >=0;
+          return (
+            t.tags.indexOf(this.searchText) >=0 || t.title.indexOf(this.searchText) >=0)
       });
-    this.feeds.feed.entry = filterentries;
-    this.totalentries= this.feeds.feed.entry.length;
+        this.feeds.items = filterentries;
+        this.totalentries= this.feeds.items.length;
      }
-    else {
-
-      this.GetAllFeeds();
-    }
-    //console.log(this.feeds.feed);
-  //  alert(this.searchText);
+    else 
+        this.GetAllFeeds();
   }
+  // Get All feeds by calling the Feeds Service
   GetAllFeeds()
   {
     this.flikrsrvc.getFeedsFromService().
-    subscribe((data:IFeed) => 
+    subscribe((data:IJSONFeed) => 
     {
-      if (data)
+      console.log(data);
       this.feeds = data;
-      this.totalentries= this.feeds.feed.entry.length;
+      this.totalentries= this.feeds.items.length;
+    },error => {
+        console.log(error);
     });
   }
  ngOnInit() {
-    
   this.GetAllFeeds();
-/*     function isEnclosure(data:IFeed)
-    {
-     // console.log(entries);
-     var localdata = data;
-     localdata.entry = null;
-    // console.log(data.title);
-     var links:LinkEntity[]
-
-      data.entry.forEach((al) => {
-        if (al)
-        {
-          console.log(al);
-        al.link.forEach(link => {
-            if (link)
-            {
-                 if (link.href =='enclosure')
-                {
-                    localdata.entry.push(al);
-                }
-            }
-        });
-      }
-      });
-        return localdata;
-   } */
 }
 }
 
